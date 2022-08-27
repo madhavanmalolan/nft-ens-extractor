@@ -18,15 +18,12 @@ const erc721abi = require("./erc721abi.json");
 const erc721contract = new ethers.Contract(address, erc721abi, provider);
 
 async function getOwnerEns() {
-    console.log("Getting owner of ENS");
     const totalSupply = (await erc721contract.totalSupply()).toNumber();
-    console.log("Total supply: ", totalSupply);
-
     for(let i = 0 ; i < totalSupply; i += 1) {
         try{
             const owner = await erc721contract.ownerOf(i);
             const ens = await provider.lookupAddress(owner);
-            console.log(`${i}\t${owner}\t${ens}`);
+            console.log(`${i}/${totalSupply}\t${owner}\t${ens}`);
         }
         catch(e){
             console.error(e)
